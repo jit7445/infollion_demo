@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence, useSpring } from "motion/react";
+import dynamic from "next/dynamic";
+import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from "motion/react";
 import { 
   Phone, Users, UserPlus, Plane, 
   Sparkles, ArrowRight, ShieldCheck, Search, 
@@ -9,11 +10,13 @@ import {
   Zap, Shield, Globe, Building, Lightbulb, Coins
 } from "lucide-react";
 import { BackgroundParticles } from "@/components/BackgroundParticles";
-import { NetworkGlobe } from "@/components/NetworkGlobe";
 import { GlowCard } from "@/components/GlowCard";
 import { StepFlow } from "@/components/StepFlow";
-import { InfollionStory } from "@/components/InfollionStory";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+
+// Dynamic imports for client-heavy components
+const NetworkGlobe = dynamic(() => import("@/components/NetworkGlobe").then(mod => mod.NetworkGlobe), { ssr: false });
+const InfollionStory = dynamic(() => import("@/components/InfollionStory").then(mod => mod.InfollionStory), { ssr: false });
 
 // ─── Sub-Components ─────────────────────────────────────────────────────────
 
@@ -28,8 +31,6 @@ function MagneticButton({
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const [hovered, setHovered] = useState(false);
-  const x = useTransform(motionValue(0), [0], [0]); // Placeholder
-  const y = useTransform(motionValue(0), [0], [0]); // Placeholder
   
   // Simple implementation for recovery
   return (
@@ -45,10 +46,6 @@ function MagneticButton({
     </motion.a>
   );
 }
-
-// Helper to handle motion values without complex setup for now
-import { useMotionValue } from "motion/react";
-function motionValue(v: number) { return useMotionValue(v); }
 
 // ─── Main Page ──────────────────────────────────────────────────────────────
 
